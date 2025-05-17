@@ -1,4 +1,13 @@
 {
     "high_income_percentile_threshold": 80,
-    "data_file_path": "Data_GDP_Pop_by_Country_1960_Countries_only.csv"
+    "data_file_path": "Data_GDP_Pop_by_Country_1960_Countries_only.csv",
+    "series_name_mapping": {
+        "GDP (current US$)": "GDP",
+        "GDP, PPP (current international $)": "PPP_GDP",
+        "Population, total": "Total_Population",
+        "Population, ages 15-64, total": "Working_Age_Population"
+    },
+    "pivot_index_columns": ["Country Name", "Year", "Country Code"],
+    "pivot_columns_column": "Series Name",
+    "pivot_values_column": "Value"
 }

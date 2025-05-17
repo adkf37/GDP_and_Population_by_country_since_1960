@@ -31,12 +31,12 @@ The Python script (`code.py`) performs the following key functions:
 1.  Ensure you have Python installed.
 2.  Install the necessary libraries:
     ```bash
-    pip install pandas numpy matplotlib dash plotly
+    pip install -r requirements.txt
     ```
-3.  Place the data file `Data_GDP_Pop_by_Country_1960_Countries_only.csv` in the specified path within `code.py` or update the `file_path` variable in the script.
-4.  Run the script:
+3.  Place the data file `Data_GDP_Pop_by_Country_1960_Countries_only.csv` in the same directory as the script, or update the `data_file_path` in `config.json`.
+4.  Run the script (assuming you have renamed `code.py` to `gdp_population_analysis.py`):
     ```bash
-    python code.py
+    python gdp_population_analysis.py
     ```
 5.  The Dash application will typically be available at `http://127.0.0.1:8050/` in your web browser.
 
