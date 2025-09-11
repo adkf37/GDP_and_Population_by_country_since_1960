@@ -4,7 +4,7 @@ This project analyzes historical GDP and population data for various countries, 
 
 ## Project Overview
 
-The Python script (`code.py`) performs the following key functions:
+The Python script (`gdp_population_analysis.py`) performs the following key functions:
 
 1.  **Data Loading and Inspection**: It loads country-specific data from a CSV file (`Data_GDP_Pop_by_Country_1960_Countries_only.csv`).
 2.  **Data Cleaning and Transformation**:
@@ -34,7 +34,7 @@ The Python script (`code.py`) performs the following key functions:
     pip install -r requirements.txt
     ```
 3.  Place the data file `Data_GDP_Pop_by_Country_1960_Countries_only.csv` in the same directory as the script, or update the `data_file_path` in `config.json`.
-4.  Run the script (assuming you have renamed `code.py` to `gdp_population_analysis.py`):
+4.  Run the script `gdp_population_analysis.py`:
     ```bash
     python gdp_population_analysis.py
     ```
