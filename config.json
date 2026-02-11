@@ -9,5 +9,10 @@
     },
     "pivot_index_columns": ["Country Name", "Year", "Country Code"],
     "pivot_columns_column": "Series Name",
-    "pivot_values_column": "Value"
+    "pivot_values_column": "Value",
+    "simulation": {
+        "initial_migrant_productivity": 0.5,
+        "productivity_step_per_year": 0.1,
+        "default_projection_years": 10
+    }
 }

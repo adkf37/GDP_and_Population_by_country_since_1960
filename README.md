@@ -2,6 +2,21 @@
 
 This project analyzes historical GDP and population data for various countries, providing insights through data cleaning, transformation, exploratory analysis, and an interactive web-based dashboard. It also ships a migration-driven projection engine and helper utilities for exploring how alternative migration flows could shape population and GDP trends over the next several decades.
 
+## Data Source
+
+The data is sourced from the **World Bank Open Data** portal (https://data.worldbank.org/).
+
+### World Bank Indicator Codes
+
+| Indicator Code | Description |
+|----------------|-------------|
+| `NY.GDP.MKTP.CD` | GDP (current US$) |
+| `NY.GDP.MKTP.PP.CD` | GDP, PPP (current international $) |
+| `SP.POP.TOTL` | Population, total |
+| `SP.POP.1564.TO` | Population, ages 15-64 (working age) |
+
+The CSV files use the World Bank's standard long format with columns: `Country Name`, `Country Code`, `Series Name`, `Series Code`, `Year`, `Value`. Missing values are marked as `..`.
+
 ## Project Overview
 
 ### Exploratory Analysis (`gdp_population_analysis.py`)
@@ -68,5 +83,18 @@ Automated checks validate the helper functions and simulator behaviour:
 ```bash
 pytest -q
 ```
+
+The test suite includes:
+- **Data validation tests** (`tests/test_data_validation.py`): Verify GDP and population values match World Bank published statistics
+- **Data loader tests** (`tests/test_data_loader.py`): Unit and integration tests for data transformation utilities
+- **Migration simulation tests** (`tests/test_migration_helpers.py`): Tests for projection and migration flow helpers
+- **Transform tests** (`tests/test_transform.py`): Tests for derived metric calculations
+
+## Configuration
+
+Application settings are stored in `config.json`. See `CONFIG_SCHEMA.md` for full documentation of all options including:
+- Data file paths and column mappings
+- Income classification thresholds
+- Migration simulation parameters (productivity assumptions, projection years)
 
 These components provide a dynamic way to explore and understand both historical relationships and potential futures within the global GDP and population dataset from 1960 onwards.

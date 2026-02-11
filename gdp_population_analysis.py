@@ -1,14 +1,19 @@
-import pandas as pd
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
-import json  # Added for loading config
 
 CONFIG_FILE_PATH = 'config.json'
 
 
-def load_config(config_path):
+def load_config(config_path: str | Path) -> Optional[Dict[str, Any]]:
     """Loads configuration from a JSON file."""
     try:
         with open(config_path, 'r') as f:
@@ -22,7 +27,7 @@ def load_config(config_path):
         return None
 
 
-def load_data(file_path):
+def load_data(file_path: str | Path) -> Optional[pd.DataFrame]:
     """Loads data from a CSV file."""
     try:
         data = pd.read_csv(file_path)
@@ -38,7 +43,12 @@ def load_data(file_path):
         print(f"Error loading data from '{file_path}': {e}")
         return None
 
-def reshape_data(df, pivot_config, series_mapping):
+
+def reshape_data(
+    df: Optional[pd.DataFrame],
+    pivot_config: Dict[str, Any],
+    series_mapping: Dict[str, str],
+) -> Optional[pd.DataFrame]:
     """Reshapes data from long to wide format and renames columns."""
     if df is None:
         return None
@@ -80,7 +90,10 @@ def reshape_data(df, pivot_config, series_mapping):
         print(f"An unexpected error occurred during data reshaping: {e}")
         return None
 
-def clean_and_transform_data(df, high_income_threshold):
+def clean_and_transform_data(
+    df: Optional[pd.DataFrame],
+    high_income_threshold: float,
+) -> Optional[pd.DataFrame]:
     """Cleans, transforms, and enriches the dataframe."""
     if df is None:
         return None
@@ -98,25 +111,24 @@ def clean_and_transform_data(df, high_income_threshold):
             print(f"Warning: Expected column '{col}' not found for numeric conversion. It will be missing in calculations.")
             df[col] = np.nan # Ensure column exists for subsequent calculations to avoid KeyErrors
 
-    # Calculate additional metrics
-    # Add checks for column existence before calculation
+    # Calculate additional metrics with safe division (handles division by zero)
     if 'GDP' in df.columns and 'Total_Population' in df.columns:
-        df['GDP per Capita'] = df['GDP'] / df['Total_Population']
+        df['GDP per Capita'] = df['GDP'] / df['Total_Population'].replace(0, np.nan)
     else:
         df['GDP per Capita'] = np.nan
 
     if 'GDP' in df.columns and 'Working_Age_Population' in df.columns:
-        df['GDP per Working Age Adult'] = df['GDP'] / df['Working_Age_Population']
+        df['GDP per Working Age Adult'] = df['GDP'] / df['Working_Age_Population'].replace(0, np.nan)
     else:
         df['GDP per Working Age Adult'] = np.nan
         
     if 'PPP_GDP' in df.columns and 'Total_Population' in df.columns:
-        df['PPP GDP per Capita'] = df['PPP_GDP'] / df['Total_Population']
+        df['PPP GDP per Capita'] = df['PPP_GDP'] / df['Total_Population'].replace(0, np.nan)
     else:
         df['PPP GDP per Capita'] = np.nan
 
     if 'PPP_GDP' in df.columns and 'Working_Age_Population' in df.columns:
-        df['PPP GDP per Working Age Adult'] = df['PPP_GDP'] / df['Working_Age_Population']
+        df['PPP GDP per Working Age Adult'] = df['PPP_GDP'] / df['Working_Age_Population'].replace(0, np.nan)
     else:
         df['PPP GDP per Working Age Adult'] = np.nan
 
@@ -130,7 +142,7 @@ def clean_and_transform_data(df, high_income_threshold):
         
     return df
 
-def perform_exploratory_analysis(df):
+def perform_exploratory_analysis(df: Optional[pd.DataFrame]) -> None:
     """Performs and prints exploratory data analysis results."""
     if df is None:
         return
@@ -184,7 +196,7 @@ def perform_exploratory_analysis(df):
         print("Cannot create aggregated insights because 'Income Category' column is missing.")
 
 
-def create_dashboard(df_initial):
+def create_dashboard(df_initial: Optional[pd.DataFrame]) -> Dash:
     """Creates and configures the Dash application."""
     if df_initial is None or df_initial.empty:
         print("Cannot create dashboard without data or with empty data.")
